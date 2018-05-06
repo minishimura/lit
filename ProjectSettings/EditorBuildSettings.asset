@@ -4,4 +4,23 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/prolog1.unity
+    guid: 229f376280b7e405aa510415e9686d45
+  - enabled: 1
+    path: Assets/Scenes/Prolog2.unity
+    guid: 214df1c321fa74861b84537405a11b79
+  - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 97497a1258d9c41acad6e3112a915ab7
+  - enabled: 1
+    path: Assets/Scenes/Load1.unity
+    guid: a7bdab5e3b4f74030a62ed1b3a004a00
+  - enabled: 1
+    path: Assets/Scenes/Stage1.unity
+    guid: ad49e64b2dce644e5ae5778f33ddfee6
+  - enabled: 1
+    path: Assets/Scenes/Final.unity
+    guid: b72ac8f5f39524167b122198f98e4aaf
+  m_configObjects: {}
