@@ -47,6 +47,7 @@ public class MainController : MonoBehaviour {
 	void Update(){
 		if (m_state != State.Damaged){
 			float x = Input.GetAxis("Horizontal");
+            x = 3 * x;
 			bool jump = Input.GetButtonDown("Jump");
 			Move(x, jump);
 		}
@@ -103,8 +104,8 @@ public class MainController : MonoBehaviour {
 	}
 
 	IEnumerator INTERNAL_OnDamage(){
-		m_animator.Play(m_isGround ? "Damage" : "AirDamage");
-		m_animator.Play("Idle");
+		m_animator.Play(m_isGround ? "damage" : "AirDamage");
+		m_animator.Play("idle");
 		SendMessage("OnDamage", SendMessageOptions.DontRequireReceiver);
 		m_rigidbody2D.velocity = new Vector2(2.2f * transform.right.x * backwardForce.x, 2.2f * transform.up.y * backwardForce.y);
 		yield return new WaitForSeconds(0.1f);
