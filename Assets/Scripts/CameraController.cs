@@ -19,14 +19,15 @@ public class CameraController : MonoBehaviour{
 	void LateUpdate(){
 		var right = m_camera.ViewportToWorldPoint(Vector2.right);
 		var center = m_camera.ViewportToWorldPoint(Vector2.one * 0.5f);
-
-		if (center.x < UnityChan.position.x){
-			var pos = m_camera.transform.position;
-
-			if (Math.Abs(pos.x - UnityChan.position.x) >= 0.0000001f){
-				m_camera.transform.position = new Vector3(UnityChan.position.x, pos.y, pos.z);
-			}
-		}
+        if (center.x < UnityChan.position.x)
+        {
+            var pos = m_camera.transform.position;
+            if (Math.Abs(pos.x - UnityChan.position.x) >= 0.0000001f || Math.Abs(pos.y - UnityChan.position.y) >= 0.0000001f)
+            {
+                m_camera.transform.position = new Vector3(UnityChan.position.x, UnityChan.position.y, m_camera.transform.position.z);
+            }
+        }
+       
 
 		if (stopPosition.position.x - right.x < 0){
 			StartCoroutine(INTERNAL_Clear());
@@ -41,7 +42,7 @@ public class CameraController : MonoBehaviour{
 			player.SendMessage("Clear", SendMessageOptions.DontRequireReceiver);
 		}
 
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(1);
 		SceneManager.LoadScene(nextLevel);
 	}
 }

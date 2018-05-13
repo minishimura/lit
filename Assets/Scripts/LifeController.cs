@@ -6,12 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class LifeController : MonoBehaviour{
 
+    private int Animal;
 	public int playerLIFE;
 	public Text LIFE;	
 	[SceneName]
 	public string nextLevel;
 	public Transform playerPosition;
 	public float DeadYLine = -15.0f;
+
+
 
 	public void LossLife(){
 		if (playerLIFE >= 1 ) {
@@ -27,6 +30,16 @@ public class LifeController : MonoBehaviour{
 		playerLIFE = 0;
 		LIFE.text = playerLIFE.ToString ("00");
 	}
+
+    void Awake(){
+
+        Animal = PlayerPrefs.GetInt("animal");
+        if (Animal == 1){
+            playerLIFE += 5;
+            LIFE.text = playerLIFE.ToString();
+        }
+
+    }
 
 	void Update(){
 		if (playerLIFE == 0){
