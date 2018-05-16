@@ -78,7 +78,7 @@ public class LifeController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.65f);
-        SceneManager.LoadScene(nextLevel);
+        //SceneManager.LoadScene(nextLevel);
     }
 
     private static LifeController l_instance;

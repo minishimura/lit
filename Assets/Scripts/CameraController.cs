@@ -43,6 +43,6 @@ public class CameraController : MonoBehaviour{
 		}
 
 		yield return new WaitForSeconds(1);
-		SceneManager.LoadScene(nextLevel);
+		//SceneManager.LoadScene(nextLevel);
 	}
 }
