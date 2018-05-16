@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e087ec841a5e84c4fae8b765d40fa6b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextLevel: Prolog2
+  nextLevel: Gameover
   enter: 120
 --- !u!82 &56062185
 AudioSource:

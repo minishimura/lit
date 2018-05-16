@@ -33,11 +33,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Load1/Load1c_s.unity
     guid: 2e3064392a4a747e7bb1bd18340d1a2c
   - enabled: 1
+    path: Assets/Scenes/Newstage1.unity
+    guid: 83e4a95c434464d93801e9d37f7f4ffd
+  - enabled: 1
     path: Assets/Scenes/Load1/load1d_c.unity
     guid: d14bbd66e6a1b4ddba35ef404b0e51b6
-  - enabled: 1
-    path: Assets/Scenes/GameClear.unity
-    guid: 022d82513e5814b0f83ae8aaa5e8e64f
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Load1/load1e_l.unity
     guid: 8a660c2ac69fd4342849d8410291d9e0

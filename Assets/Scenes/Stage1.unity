@@ -6376,6 +6376,7 @@ GameObject:
   - component: {fileID: 362986000}
   - component: {fileID: 362986005}
   - component: {fileID: 362986004}
+  - component: {fileID: 362986006}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -6492,6 +6493,21 @@ MonoBehaviour:
   time: 300
   nextLevel: Start
   timer: {fileID: 918364731}
+--- !u!114 &362986006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 362985999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bedc284bbed647109ee24d99b55b1f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LIFE: {fileID: 852768206}
+  nextLevel: prolog1
+  playerPosition: {fileID: 781495546}
+  DeadYLine: -15
 --- !u!1 &369909653
 GameObject:
   m_ObjectHideFlags: 0
@@ -13962,9 +13978,6 @@ MonoBehaviour:
   maxSpeed: 100000
   jumpPower: 350000
   backwardForce: {x: -4.5, y: 5.4}
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!61 &781495548
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14021,7 +14034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bedc284bbed647109ee24d99b55b1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLIFE: 3
   LIFE: {fileID: 852768206}
   nextLevel: Gameover
   playerPosition: {fileID: 781495546}
@@ -19533,7 +19545,7 @@ GameObject:
   - component: {fileID: 1069368723}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: DamageObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

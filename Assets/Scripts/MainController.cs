@@ -9,16 +9,18 @@ using UnityEngine.UI;
 public class MainController : MonoBehaviour
 {
 
-    public float maxSpeed = 9f;
-    public float jumpPower = 1000f;
+    public float maxSpeed;
+    public float jumpPower;
     public Vector2 backwardForce = new Vector2(-4.5f, 5.4f);
-    public LayerMask whatIsGround;
+    public Transform girl;
     private Animator m_animator;
     private BoxCollider2D m_boxcollier2D;
     private Rigidbody2D m_rigidbody2D;
     private bool m_isGround;
     private const float m_centerY = 1.5f;
     private State m_state = State.Normal;
+    private SpriteRenderer m_renderer;
+    private bool on_damage = false;
 
     void Reset()
     {
@@ -27,7 +29,6 @@ public class MainController : MonoBehaviour
         maxSpeed = 9f;
         jumpPower = 1000;
         backwardForce = new Vector2(-4.5f, 5.4f);
-        whatIsGround = 1 << LayerMask.NameToLayer("Ground");
         // Transform
         transform.localScale = new Vector3(1, 1, 1);
         // Rigidbody2D
@@ -45,11 +46,12 @@ public class MainController : MonoBehaviour
         m_animator = GetComponent<Animator>();
         m_boxcollier2D = GetComponent<BoxCollider2D>();
         m_rigidbody2D = GetComponent<Rigidbody2D>();
+
     }
 
     void Update()
     {
-        if (m_state != State.Damaged)
+        if (on_damage == false)
         {
             float x = Input.GetAxis("Horizontal");
             bool jump = Input.GetButtonDown("Jump");
@@ -71,7 +73,7 @@ public class MainController : MonoBehaviour
         m_animator.SetFloat("Vertical", m_rigidbody2D.velocity.y);
         m_animator.SetBool("isGround", m_isGround);
 
-        if (jump)
+        if (jump && m_isGround)
         {
             m_animator.SetTrigger("Jump");
             SendMessage("Jump", SendMessageOptions.DontRequireReceiver);
@@ -79,68 +81,76 @@ public class MainController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+
+    void OnCollisionStay2D(Collision2D other)
     {
-        Vector2 pos = transform.position;
+        if (other.gameObject.tag == "Ground")
+        {
+
+            m_isGround = true;
+            m_animator.SetBool("isGround", m_isGround);
+        }
     }
 
-    void OnCollisionEnter2D(Collider Ground)
-	{
-        m_animator.SetBool("isGround", true);
-	}
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Ground")
+        {
+            m_isGround = false;
+            m_animator.SetBool("isGround", m_isGround);
+        }
+    }
 
-	private void OnCollisionExit2D(Collider Ground)
-	{
-        m_animator.SetBool("isGround", false);
-	}
 
-
-	void OnTriggerStay2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
 
-        if (other.tag == "DamageObject" && m_state == State.Normal)
+        if (other.tag == "DamageObject" && !on_damage)
         {
-            m_state = State.Damaged;
-            StartCoroutine(INTERNAL_OnDamage());
             LifeController.instance.LossLife();
+            OnDamageEffect();
+            m_animator.SetBool("Damage" ,on_damage);
+
         }
-        if (other.tag == "GoalObject" && m_state == State.Normal)
-        {
-            m_state = State.Damaged;
-            StartCoroutine(INTERNAL_OnDamage());
-            PointController.instance.BigLossCoin();
-            PointController.instance.SetData();
-            PointController.instance.LogData();
-        }
+       
         if (other.tag == "DeathObject" && m_state == State.Normal)
         {
-            m_state = State.Damaged;
-            StartCoroutine(INTERNAL_OnDamage());
+           on_damage = true;
+            OnDamageEffect();
+            m_animator.SetBool("Damage", on_damage);
             LifeController.instance.BigLossLife();
         }
     }
 
-    IEnumerator INTERNAL_OnDamage()
+
+    void OnDamageEffect()
     {
-        m_animator.Play("damage");
-        m_animator.Play("idle");
-        SendMessage("OnDamage", SendMessageOptions.DontRequireReceiver);
-        m_rigidbody2D.AddForce(new Vector2(2.2f * transform.right.x * backwardForce.x, 2.2f * transform.up.y * backwardForce.y));
-        yield return new WaitForSeconds(0.1f);
-
-        while (m_isGround == false)
+        on_damage = true;
+        float s = 100f * Time.deltaTime;
+        girl.transform.Translate(Vector3.up * s);
+        if (girl.transform.localScale.x >= 0)
         {
-            yield return new WaitForFixedUpdate();
+            girl.transform.Translate(Vector3.right * s);
         }
+        else
+        {
+            girl.transform.Translate(Vector3.left * s);
+        }
+        StartCoroutine("WaitForIt");
 
-        m_state = State.Normal;
     }
 
+    IEnumerator WaitForIt()
+    {
+        yield return new WaitForSeconds(1);
+        on_damage = false;
+        m_renderer.color = new Color(1f, 1f, 1f, 1f);
+    }
 
     enum State
     {
         Normal,
-        Damaged,
     }
+
 }
 	

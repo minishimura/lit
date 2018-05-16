@@ -4,77 +4,95 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class LifeController : MonoBehaviour{
+public class LifeController : MonoBehaviour
+{
 
-    private int Animal;
-	public int playerLIFE;
-	public Text LIFE;	
-	[SceneName]
-	public string nextLevel;
-	public Transform playerPosition;
-	public float DeadYLine = -15.0f;
+    GameObject gamemanager;
+    GameManagerScript script;
+    public Text LIFE;
+    [SceneName]
+    public string nextLevel;
+    public Transform playerPosition;
+    public float DeadYLine = -15.0f;
+    private int life;
 
 
 
-	public void LossLife(){
-		if (playerLIFE >= 1 ) {
-			playerLIFE -= 1;
-		} 
-		else {
-			playerLIFE = 0;
-		}
-		LIFE.text = playerLIFE.ToString ("00");
-	}
-
-	public void BigLossLife(){
-		playerLIFE = 0;
-		LIFE.text = playerLIFE.ToString ("00");
-	}
-
-    void Awake(){
-
-        Animal = PlayerPrefs.GetInt("animal");
-        if (Animal == 1){
-            playerLIFE += 5;
-            LIFE.text = playerLIFE.ToString();
+    public void LossLife()
+    {
+        if (life >= 1)
+        {
+            life -= 1;
         }
-
+        else
+        {
+            life = 0;
+        }
+        LIFE.text = life.ToString("00");
     }
 
-	void Update(){
-		if (playerLIFE == 0){
-			GameObject player = GameObject.FindGameObjectWithTag("Player");
-			if (player){
-				StartCoroutine(LoadNextLevel());
-				enabled = false;
-			}
-		}
-		if (playerPosition.position.y < DeadYLine) {
-			BigLossLife();
-		}
-	}
+    public void BigLossLife()
+    {
+        life = 0;
+        LIFE.text = life.ToString("00");
+    }
 
-	private IEnumerator LoadNextLevel(){
-		var player = GameObject.FindGameObjectWithTag ("Player");
-		yield return new WaitForSeconds (0.18f);
+    void Start()
+    {
+        gamemanager = GameObject.Find("GameManager");
+        script = gamemanager.GetComponent<GameManagerScript>();
+        int animal = script.ANIMAL;
+        int life = script.LIFE;
+        if (animal == 1)
+        {
+            life += 5;
+        }
 
-		if (player) {
-			player.SendMessage ("TimeOver", SendMessageOptions.DontRequireReceiver);
-		}
 
-		yield return new WaitForSeconds (1.65f);
-		SceneManager.LoadScene(nextLevel);
-	}		
+    }
+    void Update()
+    {
+        if (life == 0)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player)
+            {
+                StartCoroutine(LoadNextLevel());
+                enabled = false;
+            }
+        }
+        if (playerPosition.position.y < DeadYLine)
+        {
+            BigLossLife();
+        }
+    }
 
-	private static LifeController l_instance;
+    private IEnumerator LoadNextLevel()
+    {
+        var player = GameObject.FindGameObjectWithTag("Player");
+        yield return new WaitForSeconds(0.18f);
 
-	public static LifeController instance{
-		get{
-			if (l_instance == false){
-				l_instance = FindObjectOfType<LifeController>();
-			}
-			return l_instance;
-		}
-	}
+        if (player)
+        {
+            player.SendMessage("TimeOver", SendMessageOptions.DontRequireReceiver);
+        }
+
+        yield return new WaitForSeconds(1.65f);
+        SceneManager.LoadScene(nextLevel);
+    }
+
+    private static LifeController l_instance;
+
+    public static LifeController instance
+    {
+        get
+        {
+            if (l_instance == false)
+            {
+                l_instance = FindObjectOfType<LifeController>();
+            }
+            return l_instance;
+        }
+    }
+
 }
-
